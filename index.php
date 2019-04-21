@@ -130,4 +130,47 @@ function get_king($n,$m){
         }
         return $min_arr;
     }
+    function get_minabs($arr){
+        $n = count($arr);
+        if($arr[0]*$arr[$n-1]>=0)return $arr[0] >= 0 ? $arr[0] : $arr[$n - 1];
+        $left= 0;
+        $right = $n-1;
+        while ($left<=$right){
+            if($left+1==$right)return abs($arr[$left]) < abs($arr[$right]) ? $arr[$left] : $arr[$right];
+            $mid = intval(($left+$right)/2);
+            if($arr[$mid]<0)$left = $mid;
+            else $right = $mid;
+        }
+    }
+    function get_three_sum($arr){
+        $n = count($arr);
+        $res = [];
+        for($i=0;$i<$n;$i++){
+            $left = $i+1;
+            $right = $n-1;
+            while ($left<=$right){
+                $sum = $arr[$i] + $arr[$left] + $arr[$right];
+                if($sum<0)$left++;
+                elseif ($sum>0)$right--;
+                else{
+                    $res = array_merge($res,[$arr[$i] . ',' . $arr[$left] . ',' . $arr[$right]]);
+                    $left++;
+                    $right--;
+                }
+            }
+        }
+        return $res;
+    }
+    function get_max_sum($arr){
+        $now_sum = $max_sum = 0;
+        $n = count($arr);
+        for ($i=0;$i<$n;$i++){
+            if($now_sum >= 0)$now_sum += $arr[$i];
+            else $now_sum = $arr[$i];
+        }
+        if($now_sum>$max_sum)$max_sum = $now_sum;
+        return $max_sum;
+    }
+$arr = [-10, -9, -8, -4, -2, 0, 1, 2, 3, 4, 5, 6, 9];
+var_dump(get_max_sum($arr));
 
